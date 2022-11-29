@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import ContextRecipes from './ContextRecipes';
 
-export default function ContextProvider({ children }) {
+export default function ProviderRecipes({ children }) {
   const value = useMemo(() => ({
 
   }));
@@ -12,6 +12,6 @@ export default function ContextProvider({ children }) {
   );
 }
 
-ContextProvider.propTypes = {
+ProviderRecipes.propTypes = {
   children: PropTypes.node.isRequired,
 };
