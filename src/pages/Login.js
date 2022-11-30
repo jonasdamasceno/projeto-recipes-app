@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { saveUserLocalStorage } from '../service/LocalStorage';
-import SearchBar from './SearchBar';
 
 export default function Login() {
   const history = useHistory();
@@ -49,9 +48,6 @@ export default function Login() {
         Enter
 
       </button>
-      <div>
-        <SearchBar />
-      </div>
     </div>
   );
 }
