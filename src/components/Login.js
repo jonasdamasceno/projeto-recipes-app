@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { saveUserLocalStorage } from '../service/LocalSotorage';
 
 export default function Login() {
+  const history = useHistory();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [disabled, setDisabled] = useState(true);
@@ -37,6 +40,10 @@ export default function Login() {
         type="button"
         data-testid="login-submit-btn"
         disabled={ disabled }
+        onClick={ () => {
+          saveUserLocalStorage({ email });
+          history.push('./meals');
+        } }
       >
         Enter
 

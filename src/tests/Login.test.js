@@ -6,7 +6,7 @@ import renderWithRouter from '../helpers/RenderWithRouter';
 
 describe('test page Login', () => {
   test('email, password e btn Login', () => {
-    renderWithRouter(
+    const { history } = renderWithRouter(
       <App />,
     );
     const email = screen.getByTestId('email-input');
@@ -19,5 +19,8 @@ describe('test page Login', () => {
     userEvent.type(email, 'gontijo@test.com');
     userEvent.type(password, '1234567');
     expect(enterButton).toBeEnabled();
+
+    userEvent.click(enterButton);
+    expect(history.location.pathname).toBe('/meals');
   });
 });
