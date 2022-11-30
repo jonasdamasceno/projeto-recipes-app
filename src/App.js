@@ -3,11 +3,13 @@ import './App.css';
 import { Route, Switch } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ProviderRecipes from './context/ProviderRecipes';
-import Login from './components/Login';
-import Meals from './components/Meals';
-import Drinks from './components/Drinks';
-import Profile from './components/Profile';
 import RecipeDetails from './components/RecipeDetails';
+import Login from './pages/Login';
+import Meals from './pages/Meals';
+import Drinks from './pages/Drinks';
+import Profile from './pages/Profile';
+import DoneRecipes from './pages/DoneRecipes';
+import FavoriteRecipes from './pages/FavoriteRecipes';
 
 function App() {
   return (
@@ -27,8 +29,8 @@ function App() {
           render={ (props) => <RecipeDetails { ...props } /> }
         />
         <Route exact path="/profile" component={ Profile } />
-        <Route exact path="/done-recipes" component={ () => {} } />
-        <Route exact path="/favorite-recipes" component={ () => {} } />
+        <Route exact path="/done-recipes" component={ DoneRecipes } />
+        <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />
       </Switch>
     </ProviderRecipes>
   );

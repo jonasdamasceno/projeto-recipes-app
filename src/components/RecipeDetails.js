@@ -11,10 +11,9 @@ export default function RecipeDetails(props) {
     const response = await fetch(url);
     const { results } = await response.json();
   };
-  const a = useParams();
   useEffect(() => {
-    a;
-  }, [a]);
+    
+  }, []);
   console.log(props);
   return (
     <div>{`RecipeDetails${props.match.params.id}`}</div>
