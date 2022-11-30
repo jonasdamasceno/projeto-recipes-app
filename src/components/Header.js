@@ -3,19 +3,20 @@ import { useHistory } from 'react-router-dom';
 import ContextRecipes from '../context/ContextRecipes';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+import SearchBar from './SearchBar';
 
 export default function Header() {
   const { title,
-    // search, setSearch
+    search, setSearch,
   } = useContext(ContextRecipes);
   const history = useHistory();
 
   return (
     <header>
       <h4 data-testid="page-title">{title}</h4>
-      {/* {search
+      {search
         ? <SearchBar />
-        : null} */}
+        : null}
       <button
         type="button"
         onClick={ () => {
@@ -36,9 +37,9 @@ export default function Header() {
           : (
             <button
               type="button"
-              // onClick={ () => {
-              //   setSearch(!search);
-              // } }
+              onClick={ () => {
+                setSearch(!search);
+              } }
             >
               <img
                 src={ searchIcon }

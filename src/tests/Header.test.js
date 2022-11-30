@@ -1,6 +1,7 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
+import userEvent from '@testing-library/user-event';
 import renderWithRouter from '../helpers/RenderWithRouter';
 import App from '../App';
 
@@ -20,9 +21,10 @@ describe('should elements be on header', () => {
     expect(mealsTitle).toHaveTextContent('Meals');
     expect(profileButton && searchButton && mealsTitle).toBeInTheDocument();
 
-    act(() => {
-      history.push('/profile');
-    });
+    userEvent.click(searchButton);
+    expect(screen.getByTestId('search-input')).toBeInTheDocument();
+
+    userEvent.click(profileButton);
 
     const profileTitle = screen.getByTestId(PAGE_TITLE);
 
