@@ -45,7 +45,7 @@ export default function RecipeDetails(props) {
   const z = renderIngredients('Ingredient');
   const x = renderIngredients('Measure');
 
-  const gabriela = () => {
+  const juntaArrays = () => {
     const newArray = [];
     for (let index = 0; index < x.length; index += 1) {
       newArray.push(`${x[index]} ${z[index]}`);
@@ -70,12 +70,12 @@ export default function RecipeDetails(props) {
           .find((el) => el.includes('Category')))]
            + recipe.strAlcoholic}
       </p>
-      {gabriela().map((gabi, index) => (
+      {juntaArrays().map((item, index) => (
         <p
-          key={ gabi }
+          key={ item }
           data-testid={ `${index}-ingredient-name-and-measure` }
         >
-          {gabi}
+          {item}
         </p>
       ))}
       <p data-testid="instructions">{recipe.strInstructions}</p>
