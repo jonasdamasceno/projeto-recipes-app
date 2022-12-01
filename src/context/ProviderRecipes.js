@@ -5,11 +5,20 @@ import ContextRecipes from './ContextRecipes';
 export default function ProviderRecipes({ children }) {
   const [title, setTitle] = useState('');
   const [search, setSearch] = useState(false);
+  const [requestMeal, setRequestMeal] = useState([]);
+  const [requestDrink, setRequestDrink] = useState([]);
 
   const value = useMemo(() => ({
-    search, title, setTitle, setSearch,
+    search,
+    title,
+    setTitle,
+    setSearch,
+    requestDrink,
+    requestMeal,
+    setRequestDrink,
+    setRequestMeal,
 
-  }), [title, setTitle, search, setSearch]);
+  }), [title, setTitle, search, setSearch, requestDrink, requestMeal]);
 
   return (
     <ContextRecipes.Provider value={ value }>{ children }</ContextRecipes.Provider>
