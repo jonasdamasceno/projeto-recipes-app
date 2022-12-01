@@ -1,16 +1,26 @@
 import React, { useState } from 'react';
-import { requestByFirstLetter, requestByIngredient,
-  requestByName } from '../service/RequestAPI';
+import { useLocation } from 'react-router-dom';
+import { requestDrinkByFirstLetter, requestDrinkByIngredient,
+  requestDrinkByName, requestMealByFirstLetter, requestMealByIngredient,
+  requestMealByName } from '../service/RequestAPI';
 
 export default function SearchBar() {
   const [searchRadio, setSearchRadio] = useState('');
   const [searchInput, setSearchInput] = useState('');
-  const requestFunctions = {
-    ingredient: requestByIngredient,
-    name: requestByName,
-    firstLetter: requestByFirstLetter,
+
+  const requestMealFunctions = {
+    ingredient: requestMealByIngredient,
+    name: requestMealByName,
+    firstLetter: requestMealByFirstLetter,
   };
 
+  const requestDrinksFunctions = {
+    ingredient: requestDrinkByIngredient,
+    name: requestDrinkByName,
+    firstLetter: requestDrinkByFirstLetter,
+  };
+
+  const location = useLocation();
   const handleRadio = ({ target }) => {
     setSearchRadio(target.value);
   };
@@ -20,7 +30,12 @@ export default function SearchBar() {
       global.alert('Your search must have only 1 (one) character');
       return;
     }
-    requestFunctions[searchRadio](searchInput);
+    if (location.pathname === '/meals') {
+      requestMealFunctions[searchRadio](searchInput);
+    }
+    if (location.pathname === '/drinks') {
+      requestDrinksFunctions[searchRadio](searchInput);
+    }
   };
 
   return (
@@ -31,6 +46,7 @@ export default function SearchBar() {
           name="search"
           id="search"
           data-testid="search-input"
+          //   value="teste"
           value={ searchInput }
           onChange={ ({ target }) => { setSearchInput(target.value); } }
         />
