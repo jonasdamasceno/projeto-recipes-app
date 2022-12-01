@@ -3,14 +3,22 @@ import ContextRecipes from '../context/ContextRecipes';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Recipes from './Recipes';
-import { requestMealFilters, requestMeals } from '../service/RequestAPI';
+import { requestMealBySelectedFilter,
+  requestMealFilters, requestMeals } from '../service/RequestAPI';
 
 export default function Meals() {
   const TWELVE = 12;
   const FIVE = 5;
 
   const { setTitle, requestMeal, setRecipesData,
-    filters, setFilters } = useContext(ContextRecipes);
+    filters, setFilters, setRequestMeal } = useContext(ContextRecipes);
+
+  const submitFilter = (event) => {
+    const { target: { value } } = event;
+    requestMealBySelectedFilter(value).then((meal) => setRequestMeal(meal.meals));
+    console.log(requestMeal);
+    console.log(value);
+  };
 
   useEffect(() => {
     setTitle('Meals');
@@ -29,13 +37,25 @@ export default function Meals() {
               <button
                 key={ category.strCategory }
                 type="button"
+                value={ category.strCategory }
                 data-testid={ `${category.strCategory}-category-filter` }
+                onClick={ submitFilter }
               >
                 {category.strCategory}
               </button>))
           }
+          <button
+            type="button"
+            data-testid="All-category-filter"
+            onClick={ () => {
+              setRequestMeal([]);
+            } }
+          >
+            All
+
+          </button>
         </div>
-        {(requestMeal.length > 1)
+        {(requestMeal.length >= 1)
           ? requestMeal.slice(0, TWELVE).map((drink, index) => (
             <div key={ drink.idMeal } data-testid={ `${index}-recipe-card` }>
               <img
