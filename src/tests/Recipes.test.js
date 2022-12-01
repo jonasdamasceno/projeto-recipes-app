@@ -15,7 +15,7 @@ describe('Should test recipes screen', () => {
     const recipes = await screen.findAllByAltText('imagem do meal');
     expect(recipes.length).toBe(12);
   });
-  test('1)Should recipes be on screen at /drinks', async () => {
+  test('2)Should recipes be on screen at /drinks', async () => {
     const { history } = renderWithRouter(<App />);
 
     act(() => {
