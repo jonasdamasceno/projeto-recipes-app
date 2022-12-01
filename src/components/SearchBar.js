@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import ContextRecipes from '../context/ContextRecipes';
 import { requestDrinkByFirstLetter, requestDrinkByIngredient,
   requestDrinkByName, requestMealByFirstLetter, requestMealByIngredient,
   requestMealByName } from '../service/RequestAPI';
@@ -8,8 +9,9 @@ export default function SearchBar() {
   const history = useHistory();
   const [searchRadio, setSearchRadio] = useState('');
   const [searchInput, setSearchInput] = useState('');
-  const [requestMeal, setRequestMeal] = useState([]);
-  const [requestDrink, setRequestDrink] = useState([]);
+  const { requestMeal,
+    setRequestMeal, requestDrink, setRequestDrink,
+  } = useContext(ContextRecipes);
 
   const requestMealFunctions = {
     ingredient: requestMealByIngredient,
@@ -34,7 +36,7 @@ export default function SearchBar() {
     if (requestDrink.length === 1) {
       history.push(`/drinks/${requestDrink[0].idDrink}`);
     }
-  }, [requestDrink, requestMeal]);
+  }, [requestDrink, requestMeal, history]);
 
   const handleBtnBuscar = () => {
     if (searchRadio === 'firstLetter' && searchInput.length > 1) {
