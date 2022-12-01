@@ -7,8 +7,10 @@ export default function ProviderRecipes({ children }) {
   const [search, setSearch] = useState(false);
   const [requestMeal, setRequestMeal] = useState([]);
   const [requestDrink, setRequestDrink] = useState([]);
+  const [recipesData, setRecipesData] = useState([]);
 
   const value = useMemo(() => ({
+    recipesData,
     search,
     title,
     setTitle,
@@ -17,8 +19,10 @@ export default function ProviderRecipes({ children }) {
     requestMeal,
     setRequestDrink,
     setRequestMeal,
+    setRecipesData,
 
-  }), [title, setTitle, search, setSearch, requestDrink, requestMeal]);
+  }), [recipesData, title, setTitle, search,
+    setSearch, requestDrink, requestMeal, setRecipesData]);
 
   return (
     <ContextRecipes.Provider value={ value }>{ children }</ContextRecipes.Provider>
