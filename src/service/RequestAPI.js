@@ -53,3 +53,17 @@ export const requestMeals = async () => {
   const DATA = await request.json();
   return DATA;
 };
+
+export const requestMealFilters = async () => {
+  const endpoint = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
+  const request = await fetch(endpoint);
+  const DATA = await request.json();
+  return DATA;
+};
+
+export const requestDrinkFilters = async () => {
+  const endpoint = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
+  const request = await fetch(endpoint);
+  const DATA = await request.json();
+  return DATA;
+};
