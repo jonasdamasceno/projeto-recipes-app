@@ -25,6 +25,7 @@ export default function SearchBar() {
     firstLetter: requestDrinkByFirstLetter,
   };
   const location = useLocation();
+  const alertNotFound = 'Sorry, we haven\'t found any recipes for these filters.';
   const handleRadio = ({ target }) => {
     setSearchRadio(target.value);
   };
@@ -46,14 +47,25 @@ export default function SearchBar() {
     if (location.pathname === '/meals') {
       requestMealFunctions[searchRadio](searchInput)
         .then((r) => {
+          if (r.meals === null) {
+            global.alert(alertNotFound);
+            return;
+          }
           setRequestMeal(r.meals);
         });
     }
     if (location.pathname === '/drinks') {
       requestDrinksFunctions[searchRadio](searchInput)
         .then((r) => {
+          if (r.drinks === null) {
+            global.alert(alertNotFound);
+            return;
+          }
           setRequestDrink(r.drinks);
         });
+      // .catch(() => {
+      //   global.alert(alertNotFound);
+      // });
     }
   };
 
@@ -65,7 +77,6 @@ export default function SearchBar() {
           name="search"
           id="search"
           data-testid="search-input"
-          //   value="teste"
           value={ searchInput }
           onChange={ ({ target }) => { setSearchInput(target.value); } }
         />
