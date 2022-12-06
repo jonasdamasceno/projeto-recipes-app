@@ -68,7 +68,7 @@ export default function RecipeDetails(props) {
       <p data-testid="recipe-category">
         { recipe.strAlcoholic !== null && recipe[(Object.keys(recipe)
           .find((el) => el.includes('Category')))]
-           + recipe.strAlcoholic}
+          + recipe.strAlcoholic}
       </p>
       {juntaArrays().map((item, index) => (
         <p
@@ -81,6 +81,14 @@ export default function RecipeDetails(props) {
       <p data-testid="instructions">{recipe.strInstructions}</p>
       {recipe.strYoutube !== null
       && <embed data-testid="video" src={ recipe.strYoutube } />}
+      <button
+        type="button"
+        className="start-recipe-button"
+        data-testid="start-recipe-btn"
+      >
+        Start Recipe
+
+      </button>
     </div>
   );
 }
