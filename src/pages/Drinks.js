@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 import ContextRecipes from '../context/ContextRecipes';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
@@ -57,12 +58,14 @@ export default function Drinks() {
         {(requestDrink.length > 1 && !filterToggle)
           ? requestDrink.slice(0, TWELVE).map((drink, index) => (
             <div key={ drink.idDrink } data-testid={ `${index}-recipe-card` }>
-              <img
-                src={ drink.strDrinkThumb }
-                alt="imagem do drink"
-                data-testid={ `${index}-card-img` }
-              />
-              <p data-testid={ `${index}-card-name` }>{drink.strDrink}</p>
+              <NavLink to="/drinks">
+                <img
+                  src={ drink.strDrinkThumb }
+                  alt="imagem do drink"
+                  data-testid={ `${index}-card-img` }
+                />
+                <p data-testid={ `${index}-card-name` }>{drink.strDrink}</p>
+              </NavLink>
             </div>
           )) : <Recipes />}
       </div>
