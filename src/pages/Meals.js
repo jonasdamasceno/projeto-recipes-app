@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 import ContextRecipes from '../context/ContextRecipes';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
@@ -11,13 +12,13 @@ export default function Meals() {
   const FIVE = 5;
 
   const { setTitle, requestMeal, setRecipesData,
-    filters, setFilters, setRequestMeal } = useContext(ContextRecipes);
+    filters, setFilters, setRequestMeal,
+    setFilterToggle, filterToggle } = useContext(ContextRecipes);
 
   const submitFilter = (event) => {
     const { target: { value } } = event;
     requestMealBySelectedFilter(value).then((meal) => setRequestMeal(meal.meals));
-    console.log(requestMeal);
-    console.log(value);
+    setFilterToggle(!filterToggle);
   };
 
   useEffect(() => {
@@ -55,15 +56,17 @@ export default function Meals() {
 
           </button>
         </div>
-        {(requestMeal.length >= 1)
-          ? requestMeal.slice(0, TWELVE).map((drink, index) => (
-            <div key={ drink.idMeal } data-testid={ `${index}-recipe-card` }>
-              <img
-                src={ drink.strMealThumb }
-                alt="imagem do drink"
-                data-testid={ `${index}-card-img` }
-              />
-              <p data-testid={ `${index}-card-name` }>{drink.strMeal}</p>
+        {(requestMeal.length >= 1 && !filterToggle)
+          ? requestMeal.slice(0, TWELVE).map((meal, index) => (
+            <div key={ meal.idMeal } data-testid={ `${index}-recipe-card` }>
+              <NavLink to={ `/meals/${meal.idMeal}` }>
+                <img
+                  src={ meal.strMealThumb }
+                  alt="imagem do meal"
+                  data-testid={ `${index}-card-img` }
+                />
+                <p data-testid={ `${index}-card-name` }>{meal.strMeal}</p>
+              </NavLink>
             </div>
           )) : <Recipes />}
       </div>

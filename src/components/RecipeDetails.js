@@ -83,7 +83,7 @@ export default function RecipeDetails(props) {
       <p data-testid="recipe-category">
         { recipe.strAlcoholic !== null && recipe[(Object.keys(recipe)
           .find((el) => el.includes('Category')))]
-           + recipe.strAlcoholic}
+          + recipe.strAlcoholic}
       </p>
       {juntaArrays().map((item, index) => (
         <p
@@ -113,6 +113,14 @@ export default function RecipeDetails(props) {
           </div>
         ))}
       </div>
+      <button
+        type="button"
+        className="start-recipe-button"
+        data-testid="start-recipe-btn"
+      >
+        Start Recipe
+
+      </button>
     </div>
   );
 }
