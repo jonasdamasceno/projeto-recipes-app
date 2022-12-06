@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import IngredientProgress from './IngredientsProgress';
 
 export default function DrinksInProgress() {
   const [drink, setDrink] = useState({});
@@ -54,6 +55,7 @@ export default function DrinksInProgress() {
         <p data-testid="instructions">{drink.strInstructions}</p>
         <button type="button" data-testid="finish-recipe-btn">Finalizar</button>
       </div>
+      <IngredientProgress recipeType={ drink } />
 
     </div>
   );

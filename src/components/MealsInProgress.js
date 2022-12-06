@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import IngredientProgress from './IngredientsProgress';
 
 export default function MealsInProgress() {
   const [meal, setMeal] = useState({});
@@ -37,19 +38,22 @@ export default function MealsInProgress() {
   // };
 
   return (
-
     <div>
-      <img
-        data-testid="recipe-photo"
-        src={ meal.strMealThumb }
-        alt={ meal.strMeal }
-      />
-      <h2 data-testid="recipe-title">{meal.strMeal}</h2>
-      <button type="button" data-testid="share-btn">Compartilhar</button>
-      <button type="button" data-testid="favorite-btn">Favoritar</button>
-      <p data-testid="recipe-category">{meal.strCategory}</p>
-      <p data-testid="instructions">{meal.strInstructions}</p>
-      <button type="button" data-testid="finish-recipe-btn">Finalizar</button>
+
+      <div>
+        <img
+          data-testid="recipe-photo"
+          src={ meal.strMealThumb }
+          alt={ meal.strMeal }
+        />
+        <h2 data-testid="recipe-title">{meal.strMeal}</h2>
+        <button type="button" data-testid="share-btn">Compartilhar</button>
+        <button type="button" data-testid="favorite-btn">Favoritar</button>
+        <p data-testid="recipe-category">{meal.strCategory}</p>
+        <p data-testid="instructions">{meal.strInstructions}</p>
+        <button type="button" data-testid="finish-recipe-btn">Finalizar</button>
+      </div>
+      <IngredientProgress recipeType={ meal } />
     </div>
   );
 }
