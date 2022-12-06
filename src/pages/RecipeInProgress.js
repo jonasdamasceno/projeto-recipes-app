@@ -1,26 +1,27 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { useLocation } from 'react-router-dom';
 import DrinksInProgress from '../components/DrinksInProgress';
 import MealsInProgress from '../components/MealsInProgress';
-import ContextRecipes from '../context/ContextRecipes';
 
 export default function RecipeInProgress() {
-  const { title } = useContext(ContextRecipes);
+  const location = useLocation();
+  const locationType = location.pathname.split('/')[1];
 
   return (
     <div>
-      {title === 'Meals'
+      {locationType === 'meals'
       && (
         <div>
           <MealsInProgress />
         </div>
       )}
-      {title === 'Drinks'
+      {locationType === 'drinks'
       && (
+
         <div>
           <DrinksInProgress />
         </div>
       )}
-      ola
 
     </div>
   );

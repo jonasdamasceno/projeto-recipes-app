@@ -24,7 +24,7 @@ export default function ProviderRecipes({ children }) {
     setRecipesData,
     setFilters,
   }), [recipesData, title, setTitle, search, filters,
-    setFilters, setSearch, requestDrink, requestMeal, setRecipesData]);
+    setFilters, setSearch, requestDrink, requestMeal]);
 
   return (
     <ContextRecipes.Provider value={ value }>{ children }</ContextRecipes.Provider>
