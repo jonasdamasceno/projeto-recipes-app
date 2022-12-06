@@ -11,13 +11,13 @@ export default function Meals() {
   const FIVE = 5;
 
   const { setTitle, requestMeal, setRecipesData,
-    filters, setFilters, setRequestMeal } = useContext(ContextRecipes);
+    filters, setFilters, setRequestMeal,
+    setFilterToggle, filterToggle } = useContext(ContextRecipes);
 
   const submitFilter = (event) => {
     const { target: { value } } = event;
     requestMealBySelectedFilter(value).then((meal) => setRequestMeal(meal.meals));
-    console.log(requestMeal);
-    console.log(value);
+    setFilterToggle(!filterToggle);
   };
 
   useEffect(() => {
@@ -55,7 +55,7 @@ export default function Meals() {
 
           </button>
         </div>
-        {(requestMeal.length >= 1)
+        {(requestMeal.length >= 1 && !filterToggle)
           ? requestMeal.slice(0, TWELVE).map((drink, index) => (
             <div key={ drink.idMeal } data-testid={ `${index}-recipe-card` }>
               <img
