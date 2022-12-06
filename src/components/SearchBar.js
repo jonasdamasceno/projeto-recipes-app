@@ -11,6 +11,7 @@ export default function SearchBar() {
   const [searchInput, setSearchInput] = useState('');
   const { requestMeal,
     setRequestMeal, requestDrink, setRequestDrink,
+    setFilterToggle, filterToggle,
   } = useContext(ContextRecipes);
 
   const requestMealFunctions = {
@@ -67,6 +68,7 @@ export default function SearchBar() {
       //   global.alert(alertNotFound);
       // });
     }
+    setFilterToggle(!filterToggle);
   };
 
   return (

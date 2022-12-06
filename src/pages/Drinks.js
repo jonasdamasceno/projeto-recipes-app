@@ -8,13 +8,15 @@ import Recipes from './Recipes';
 
 export default function Drinks() {
   const { setTitle, setRecipesData,
-    requestDrink, setFilters, filters, setRequestDrink } = useContext(ContextRecipes);
+    requestDrink, setFilters, filters, setRequestDrink,
+    setFilterToggle, filterToggle } = useContext(ContextRecipes);
   const TWELVE = 12;
   const FIVE = 5;
 
   const submitFilter = (event) => {
     const { target: { value } } = event;
     requestDrinkBySelectedFilter(value).then((drink) => setRequestDrink(drink.drinks));
+    setFilterToggle(!filterToggle);
   };
 
   useEffect(() => {
@@ -52,7 +54,7 @@ export default function Drinks() {
 
           </button>
         </div>
-        {(requestDrink.length > 1)
+        {(requestDrink.length > 1 && !filterToggle)
           ? requestDrink.slice(0, TWELVE).map((drink, index) => (
             <div key={ drink.idDrink } data-testid={ `${index}-recipe-card` }>
               <img
