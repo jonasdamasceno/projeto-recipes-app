@@ -20,7 +20,7 @@ export default function Profile() {
   return (
     <div>
       <Header />
-      <p data-testid="profile-email">{user.email}</p>
+      <p data-testid="profile-email">{user?.email}</p>
       <button
         onClick={ () => {
           history.push('./done-recipes');
