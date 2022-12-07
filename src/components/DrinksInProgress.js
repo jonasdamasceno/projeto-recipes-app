@@ -8,12 +8,10 @@ export default function DrinksInProgress() {
   const locationSplit = location.pathname.split('/');
   const id = locationSplit[2];
 
-  console.log(id);
   const fetchAPI = async () => {
     const url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
     const response = await fetch(url);
     const results = await response.json();
-    console.log(results);
     setDrink(results.drinks[0]);
   };
 
@@ -24,7 +22,6 @@ export default function DrinksInProgress() {
   //   const a = filtered.map((el) => el[1]);
   //   return a;
   // }
-  console.log(drink);
   useEffect(() => {
     fetchAPI();
   }, []);
