@@ -2,10 +2,14 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 // import { useLocation } from 'react-router-dom';
 // import ContextRecipes from '../context/ContextRecipes';
+// import { requestDrinks, requestMeals } from '../service/RequestAPI';
+
+const SEIS = 6;
 
 export default function RecipeDetails(props) {
   // console.log(location);
   const [recipe, setRecipe] = useState({});
+  const [carousel, setCarousel] = useState([]);
   // console.log(props);
   const fetchAPI = async (arg) => {
     const b = arg.pathname.split('/');
@@ -17,17 +21,13 @@ export default function RecipeDetails(props) {
     } else { url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`; }
     const response = await fetch(url);
     const results = await response.json();
-    // console.log(results);
     // console.log(Object.keys(results)[0], results.meals[0]);
     if (Object.keys(results)[0] === 'meals') {
       setRecipe(results.meals[0]);
     } else {
       setRecipe(results.drinks[0]);
     }
-    // console.log(arg.path);
   };
-  // console.log(recipe);
-  // console.log(Object.keys(recipe).find((el) => el.includes('Thumb')));
 
   function renderIngredients(param1) {
     const asArray = Object.entries(recipe);
@@ -38,9 +38,24 @@ export default function RecipeDetails(props) {
     return a;
     // console.log(a);
   }
+
+  const fetchCarousel = async (arg) => {
+    const b = arg.pathname.split('/');
+    let url = '';
+    if (b[1] === 'meals') {
+      url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+    } else { url = 'https://www.themealdb.com/api/json/v1/1/search.php?s='; }
+    const response = await fetch(url);
+    const results = await response.json();
+    if (b[1] === 'meals') {
+      setCarousel(results.drinks);
+    } else { setCarousel(results.meals); }
+  };
+
   useEffect(() => {
     const { location } = props;
     fetchAPI(location);
+    fetchCarousel(location);
   }, []);
   const z = renderIngredients('Ingredient');
   const x = renderIngredients('Measure');
@@ -68,7 +83,7 @@ export default function RecipeDetails(props) {
       <p data-testid="recipe-category">
         { recipe.strAlcoholic !== null && recipe[(Object.keys(recipe)
           .find((el) => el.includes('Category')))]
-           + recipe.strAlcoholic}
+          + recipe.strAlcoholic}
       </p>
       {juntaArrays().map((item, index) => (
         <p
@@ -81,6 +96,31 @@ export default function RecipeDetails(props) {
       <p data-testid="instructions">{recipe.strInstructions}</p>
       {recipe.strYoutube !== null
       && <embed data-testid="video" src={ recipe.strYoutube } />}
+      <div style={ { display: 'flex', overflowY: 'hidden', overflowX: 'scroll' } }>
+        {carousel.slice(0, SEIS).map((i, index) => (
+          <div
+            key={ Number(i.idDrink || i.idMeal) }
+            data-testid={ `${index}-recommendation-card` }
+          >
+            <img
+              src={ i.strDrinkThumb || i.strMealThumb }
+              alt={ i.strDrink || i.strMeal }
+              style={ { maxWidth: '300px' } }
+            />
+            <p data-testid={ `${index}-recommendation-title` }>
+              { i.strDrink || i.strMeal }
+            </p>
+          </div>
+        ))}
+      </div>
+      <button
+        type="button"
+        className="start-recipe-button"
+        data-testid="start-recipe-btn"
+      >
+        Start Recipe
+
+      </button>
     </div>
   );
 }
