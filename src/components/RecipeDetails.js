@@ -119,7 +119,18 @@ export default function RecipeDetails(props) {
         data-testid="start-recipe-btn"
       >
         Start Recipe
-
+      </button>
+      <button
+        type="button"
+        data-testid="share-btn"
+      >
+        Compartilhar
+      </button>
+      <button
+        type="button"
+        data-testid="favorite-btn"
+      >
+        Favorito
       </button>
     </div>
   );
