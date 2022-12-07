@@ -16,6 +16,18 @@
   position: fixed;
 }
 
+.share-button {
+  bottom: 0;
+  left: 104px;
+  position: fixed;
+}
+
+.favorite-button {
+  bottom: 0;
+  left: 146px;
+  position: fixed;
+}
+
 .Footer {
   bottom: 0;
   position: fixed;
@@ -40,10 +52,10 @@
 }
 */
 
-.meals > .logo {
+.meals>.logo {
   animation: shake 1.5s infinite ease;
   color: aliceblue;
-  font-family: Montserrat , sans-serif;
+  font-family: Montserrat, sans-serif;
   font-size: 3em;
   font-weight: 900;
 }

@@ -27,6 +27,7 @@ export default function DrinksInProgress() {
   console.log(drink);
   useEffect(() => {
     fetchAPI();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // const z = renderIngredients('Ingredient');

@@ -24,6 +24,7 @@ export default function MealsInProgress() {
   // }
   useEffect(() => {
     fetchAPI();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // const z = renderIngredients('Ingredient');
