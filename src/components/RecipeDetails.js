@@ -148,7 +148,7 @@ export default function RecipeDetails(props) {
         Continue Recipe
       </button>
       <button
-sssssssssssssssssssssssssssssss        data-testid="share-btn"
+        data-testid="share-btn"
         className="share-button"
         type="button"
         onClick={ buttonShare }
