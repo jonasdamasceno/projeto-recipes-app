@@ -4,14 +4,17 @@ import { useHistory } from 'react-router-dom';
 // import { useLocation } from 'react-router-dom';
 // import ContextRecipes from '../context/ContextRecipes';
 // import { requestDrinks, requestMeals } from '../service/RequestAPI';
+import shareIcon from '../images/shareIcon.svg';
 
 const SEIS = 6;
+const copy = require('clipboard-copy');
 
 export default function RecipeDetails(props) {
   const history = useHistory();
   // console.log(location);
   const [recipe, setRecipe] = useState({});
   const [carousel, setCarousel] = useState([]);
+  const [messageCopy, setMessageCopy] = useState(false);
   // console.log(props);
   const fetchAPI = async (arg) => {
     const b = arg.pathname.split('/');
@@ -70,6 +73,7 @@ export default function RecipeDetails(props) {
     fetchAPI(location);
     fetchCarousel(location);
   }, [props]);
+
   const z = renderIngredients('Ingredient');
   const x = renderIngredients('Measure');
 
@@ -79,6 +83,15 @@ export default function RecipeDetails(props) {
       newArray.push(`${x[index]} ${z[index]}`);
     }
     return newArray;
+  };
+
+  const buttonShare = async () => {
+    setMessageCopy(true);
+    const { location } = props;
+    const { pathname } = location;
+    const url = `http://localhost:3000${pathname}`;
+    const messageSaved = await copy(url);
+    return messageSaved;
   };
 
   return (
@@ -135,25 +148,27 @@ export default function RecipeDetails(props) {
         Continue Recipe
       </button>
       <button
-        onClick={ () => {
-
-        } }
-        type="button"
         data-testid="share-btn"
+        className="share-button"
+        type="button"
+        onClick={ buttonShare }
       >
-        Compartilhar
+        <img src={ shareIcon } alt="icone" />
       </button>
       <button
-        type="button"
         data-testid="favorite-btn"
+        className="favorite-button"
+        type="button"
       >
-        Favorito
+        Favoritar
       </button>
+      {messageCopy === true && <p>Link copied!</p>}
     </div>
   );
 }
 
 RecipeDetails.propTypes = {
   location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
   }).isRequired,
 };

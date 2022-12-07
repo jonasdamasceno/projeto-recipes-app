@@ -16,6 +16,18 @@
   position: fixed;
 }
 
+.share-button {
+  bottom: 0;
+  left: 104px;
+  position: fixed;
+}
+
+.favorite-button {
+  bottom: 0;
+  left: 146px;
+  position: fixed;
+}
+
 .Footer {
   bottom: 0;
   position: fixed;
