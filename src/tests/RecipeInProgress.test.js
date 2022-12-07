@@ -20,7 +20,7 @@ describe('should elements be on RecipesInProgress', () => {
     const intructionMeal = screen.getByTestId('instructions');
     const finalizarBtn = screen.getByTestId('finish-recipe-btn');
     expect(imgMeal && nameMeal && shareBtn && faveBtn
-         && intructionMeal && finalizarBtn).toBeInTheDocument();
+    && intructionMeal && finalizarBtn).toBeInTheDocument();
   });
   test('2)/drinks/id/in-progess elements', () => {
     const { history } = renderWithRouter(<App />);
@@ -36,9 +36,31 @@ describe('should elements be on RecipesInProgress', () => {
     const intructionDrink = screen.getByTestId('instructions');
     const finalizarBtn = screen.getByTestId('finish-recipe-btn');
     expect(imgDrink
-         && nameDrink && shareBtn && faveBtn
-         && intructionDrink && finalizarBtn).toBeInTheDocument();
+    && nameDrink && shareBtn && faveBtn
+    && intructionDrink && finalizarBtn).toBeInTheDocument();
 
     userEvent.click(faveBtn);
+  });
+  test('4) tests if the button sends to drinks recipe progress', () => {
+    const { history } = renderWithRouter(<App />);
+
+    act(() => {
+      history.push('/drinks/15997/');
+    });
+    const startButton = screen.getByRole('button', { name: /continue recipe/i });
+    expect(startButton).toBeInTheDocument();
+    userEvent.click(startButton);
+    expect(history.location.pathname).toBe('/drinks/15997/in-progress');
+  });
+  test('4) tests if the button sends to meals recipe progress', () => {
+    const { history } = renderWithRouter(<App />);
+
+    act(() => {
+      history.push('/meals/52977');
+    });
+    const startButton = screen.getByRole('button', { name: /continue recipe/i });
+    expect(startButton).toBeInTheDocument();
+    userEvent.click(startButton);
+    expect(history.location.pathname).toBe('/meals/52977/in-progress');
   });
 });

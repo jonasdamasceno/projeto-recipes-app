@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 // import { useLocation } from 'react-router-dom';
 // import ContextRecipes from '../context/ContextRecipes';
 // import { requestDrinks, requestMeals } from '../service/RequestAPI';
@@ -9,6 +10,7 @@ const SEIS = 6;
 const copy = require('clipboard-copy');
 
 export default function RecipeDetails(props) {
+  const history = useHistory();
   // console.log(location);
   const [recipe, setRecipe] = useState({});
   const [carousel, setCarousel] = useState([]);
@@ -55,6 +57,17 @@ export default function RecipeDetails(props) {
     } else { setCarousel(results.meals); }
   };
 
+  const sendToProgressPage = () => {
+    const { location: { pathname } } = history;
+    const id = pathname.split('/')[2];
+    console.log(id);
+    if (history.location.pathname.includes('meals')) {
+      history.push(`/meals/${id}/in-progress`);
+    }
+    if (history.location.pathname.includes('drinks')) {
+      history.push(`/drinks/${id}/in-progress`);
+    }
+  };
   useEffect(() => {
     const { location } = props;
     fetchAPI(location);
@@ -130,11 +143,12 @@ export default function RecipeDetails(props) {
         type="button"
         className="start-recipe-button"
         data-testid="start-recipe-btn"
+        onClick={ sendToProgressPage }
       >
-        Start Recipe
+        Continue Recipe
       </button>
       <button
-        data-testid="share-btn"
+sssssssssssssssssssssssssssssss        data-testid="share-btn"
         className="share-button"
         type="button"
         onClick={ buttonShare }
