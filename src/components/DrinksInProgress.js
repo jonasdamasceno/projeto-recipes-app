@@ -27,7 +27,7 @@ export default function DrinksInProgress() {
   console.log(drink);
   useEffect(() => {
     fetchAPI();
-   }, []);
+  }, []);
 
   // const z = renderIngredients('Ingredient');
   // const x = renderIngredients('Measure');
