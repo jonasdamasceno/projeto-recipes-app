@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import ContextRecipes from '../context/ContextRecipes';
 import drinkImage from '../images/drinkIcon.svg';
 import mealImage from '../images/mealIcon.svg';
@@ -12,6 +13,7 @@ export default function FavoriteRecipes() {
   const { setTitle } = useContext(ContextRecipes);
   const [favorite, setFavorite] = useState([]);
   const [message, setMessage] = useState(false);
+  // const history = useHistory();
 
   useEffect(() => {
     setTitle('Favorite Recipes');
@@ -73,12 +75,15 @@ export default function FavoriteRecipes() {
       </section>
       <div className="card-container" />
       {favorite.map((recipe, index) => (
-        <div key={ index }>
-          <img
-            alt="recipe"
-            data-testid={ `${index}-horizontal-image` }
-            src={ recipe.image }
-          />
+        <div key={ index } className="recipe-card">
+          <NavLink to={ `/${recipe.type}s/${recipe.id}` }>
+            <img
+              alt="recipe"
+              data-testid={ `${index}-horizontal-image` }
+              src={ recipe.image }
+              className="recipe-img"
+            />
+          </NavLink>
           { recipe.type === 'meal'
             ? (
               <h4 data-testid={ `${index}-horizontal-top-text` }>
@@ -94,8 +99,10 @@ export default function FavoriteRecipes() {
                 {recipe.alcoholicOrNot}
               </h4>
             )}
+          <NavLink to={ `/${recipe.type}s/${recipe.id}` }>
+            <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
+          </NavLink>
 
-          <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
           <button
             type="button"
             onClick={ () => {
