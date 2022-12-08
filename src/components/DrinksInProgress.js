@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import ContextRecipes from '../context/ContextRecipes';
+import { saveDoneRecipesLocalStorage } from '../service/LocalStorage';
 import IngredientProgress from './IngredientsProgress';
 
 export default function DrinksInProgress() {
+  const history = useHistory();
   const [drink, setDrink] = useState({});
   const { disabledBtnFinalizar } = useContext(ContextRecipes);
   const location = useLocation();
@@ -16,10 +18,44 @@ export default function DrinksInProgress() {
     const results = await response.json();
     setDrink(results.drinks[0]);
   };
-
+  console.log(drink);
   useEffect(() => {
     fetchAPI();
   }, []);
+
+  const handleBtnFinalizar = () => {
+    const inDate = new Date();
+    const str = `${inDate.getDate()}/${inDate.getMonth() + 1}/${inDate.getFullYear()}`;
+    const doneRecipe = JSON.parse(localStorage.getItem('doneRecipes'));
+    if (!doneRecipe) {
+      saveDoneRecipesLocalStorage([{
+        id: drink.idDrink,
+        type: 'drink',
+        nationality: (drink.strArea && ''),
+        category: (drink.strCategory && ''),
+        alcoholicOrNot: (drink.strAlcoholic && ''),
+        name: drink.strDrink,
+        image: drink.strDrinkThumb,
+        doneDate: str,
+        tags: (drink.strTags !== null ? drink.strTags.split(',') : []),
+
+      }]);
+    } else {
+      saveDoneRecipesLocalStorage([...doneRecipe, {
+        id: drink.idDrink,
+        type: 'drink',
+        nationality: (drink.strArea && ''),
+        category: (drink.strCategory && ''),
+        alcoholicOrNot: (drink.strAlcoholic && ''),
+        name: drink.strDrink,
+        image: drink.strDrinkThumb,
+        doneDate: str,
+        tags: (drink.strTags !== null ? drink.strTags.split(',') : []),
+
+      }]);
+    }
+    history.push('/done-recipes');
+  };
 
   return (
     <div>
@@ -41,6 +77,7 @@ export default function DrinksInProgress() {
         className="finish-button"
         data-testid="finish-recipe-btn"
         disabled={ disabledBtnFinalizar }
+        onClick={ handleBtnFinalizar }
       >
         Finalizar
 

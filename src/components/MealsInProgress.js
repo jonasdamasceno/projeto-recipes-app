@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import ContextRecipes from '../context/ContextRecipes';
+import { saveDoneRecipesLocalStorage } from '../service/LocalStorage';
 import IngredientProgress from './IngredientsProgress';
 
 export default function MealsInProgress() {
+  const history = useHistory();
   const [meal, setMeal] = useState({});
   const { disabledBtnFinalizar } = useContext(ContextRecipes);
   const location = useLocation();
@@ -17,9 +19,50 @@ export default function MealsInProgress() {
     setMeal(results.meals[0]);
   };
 
+  console.log(meal);
+  // const filterRecipeDone = () => {
+  //   recipeDone = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  //   delete recipeDone.meals[id];
+  //   saveRecipeInProgressLocalStorage(recipeDone);
+  // };
+
   useEffect(() => {
     fetchAPI();
   }, []);
+
+  const handleBtnFinalizar = () => {
+    const inDate = new Date();
+    const str = `${inDate.getDate()}/${inDate.getMonth() + 1}/${inDate.getFullYear()}`;
+    const doneRecipe = JSON.parse(localStorage.getItem('doneRecipes'));
+    if (!doneRecipe) {
+      saveDoneRecipesLocalStorage([{
+        id: meal.idMeal,
+        type: 'meal',
+        nationality: (meal.strArea && ''),
+        category: (meal.strCategory && ''),
+        alcoholicOrNot: (meal.strAlcoholic && ''),
+        name: meal.strMeal,
+        image: meal.strMealThumb,
+        doneDate: str,
+        tags: (meal.strTags !== null ? meal.strTags.split(',') : []),
+
+      }]);
+    } else {
+      saveDoneRecipesLocalStorage([...doneRecipe, {
+        id: meal.idMeal,
+        type: 'meal',
+        nationality: (meal.strArea && ''),
+        category: (meal.strCategory && ''),
+        alcoholicOrNot: (meal.strAlcoholic && ''),
+        name: meal.strMeal,
+        image: meal.strMealThumb,
+        doneDate: str,
+        tags: (meal.strTags !== null ? meal.strTags.split(',') : []),
+
+      }]);
+    }
+    history.push('/done-recipes');
+  };
 
   return (
     <div>
@@ -42,6 +85,7 @@ export default function MealsInProgress() {
         className="finish-button"
         data-testid="finish-recipe-btn"
         disabled={ disabledBtnFinalizar }
+        onClick={ handleBtnFinalizar }
       >
         Finalizar
 
