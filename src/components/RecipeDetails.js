@@ -33,7 +33,7 @@ export default function RecipeDetails(props) {
       setRecipe(results.drinks[0]);
     }
   };
-
+  console.log(recipe);
   function renderIngredients(param1) {
     const asArray = Object.entries(recipe);
     const filtered = asArray.filter(([key, value]) => key.includes(param1)
@@ -93,6 +93,37 @@ export default function RecipeDetails(props) {
     const messageSaved = await copy(url);
     return messageSaved;
   };
+
+  const favoriteButton = () => {
+    const { location } = props;
+    const { pathname } = location;
+    const favorite = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
+    let newFavorite = [];
+    if (pathname.includes('meals')) {
+      newFavorite = {
+        id: recipe.idMeal,
+        type: 'meal',
+        nationality: recipe.strArea,
+        category: recipe.strCategory,
+        alcoholicOrNot: '',
+        name: recipe.strMeal,
+        image: recipe.strMealThumb,
+      };
+    } if (pathname.includes('drinks')) {
+      newFavorite = {
+        id: recipe.idDrink,
+        type: 'drink',
+        nationality: '',
+        category: recipe.strCategory,
+        alcoholicOrNot: recipe.strAlcoholic,
+        name: recipe.strDrink,
+        image: recipe.strDrinkThumb,
+      };
+    }
+    localStorage.setItem('favoriteRecipes', JSON.stringify([...favorite, newFavorite]));
+  };
+
+  /* const handleButton = () => {}; */
 
   return (
     <div>
@@ -159,6 +190,7 @@ export default function RecipeDetails(props) {
         data-testid="favorite-btn"
         className="favorite-button"
         type="button"
+        onClick={ favoriteButton }
       >
         Favoritar
       </button>
