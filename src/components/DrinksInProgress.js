@@ -15,27 +15,9 @@ export default function DrinksInProgress() {
     setDrink(results.drinks[0]);
   };
 
-  // function renderIngredients(param1) {
-  //   const asArray = Object.entries(recipe);
-  //   const filtered = asArray.filter(([key, value]) => key.includes(param1)
-  //   && value !== null && value !== '');
-  //   const a = filtered.map((el) => el[1]);
-  //   return a;
-  // }
   useEffect(() => {
     fetchAPI();
   }, []);
-
-  // const z = renderIngredients('Ingredient');
-  // const x = renderIngredients('Measure');
-
-  // const juntaArrays = () => {
-  //   const newArray = [];
-  //   for (let index = 0; index < x.length; index += 1) {
-  //     newArray.push(`${x[index]} ${z[index]}`);
-  //   }
-  //   return newArray;
-  // };
 
   return (
     <div>
