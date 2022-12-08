@@ -6,22 +6,14 @@ import shareIcon from '../images/shareIcon.svg';
 import Header from '../components/Header';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 
+const copy = require('clipboard-copy');
+
 export default function FavoriteRecipes() {
   const { setTitle } = useContext(ContextRecipes);
   const [favorite, setFavorite] = useState([]);
-  // const teste = [{
-  //   id: 52977,
-  //   type: 'meal',
-  //   nationality: 'brazilian',
-  //   category: 'category-test',
-  //   alcoholicOrNot: '',
-  //   name: 'corba',
-  //   image: 'https://www.themealdb.com/images/media/meals/58oia61564916529.jpg',
-  // }];
+  const [message, setMessage] = useState(false);
 
   useEffect(() => {
-    // const data = JSON.stringify(teste);
-    // localStorage.setItem('favoriteRecipes', data);
     setTitle('Favorite Recipes');
   }, [setTitle]);
 
@@ -30,10 +22,17 @@ export default function FavoriteRecipes() {
     setFavorite(favoriteRecipes);
   }, []);
 
-  const removeFavoritedRecipe = (str) => {
+  const changeSelectedType = (str) => {
     const favoriteRecipes = JSON.parse((localStorage.getItem('favoriteRecipes') || '[]'));
     const filteredFavoriteRecipes = favoriteRecipes.filter((el) => el.type.includes(str));
     setFavorite(filteredFavoriteRecipes);
+  };
+
+  const unfavoriteRecipe = (event) => {
+    const { target: { value } } = event;
+    const removeFavorite = favorite.filter((recipe) => recipe.id !== value);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(removeFavorite));
+    setFavorite(removeFavorite);
   };
   return (
 
@@ -43,14 +42,14 @@ export default function FavoriteRecipes() {
         <button
           data-testid="filter-by-all-btn"
           type="button"
-          onClick={ () => removeFavoritedRecipe('') }
+          onClick={ () => changeSelectedType('') }
         >
           All
         </button>
         <button
           data-testid="filter-by-meal-btn"
           type="button"
-          onClick={ () => removeFavoritedRecipe('meal') }
+          onClick={ () => changeSelectedType('meal') }
         >
           <img
             src={ mealImage }
@@ -62,7 +61,7 @@ export default function FavoriteRecipes() {
         <button
           data-testid="filter-by-drink-btn"
           type="button"
-          onClick={ () => removeFavoritedRecipe('drink') }
+          onClick={ () => changeSelectedType('drink') }
         >
           <img
             src={ drinkImage }
@@ -99,7 +98,11 @@ export default function FavoriteRecipes() {
           <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
           <button
             type="button"
-            onClick={ () => {} }
+            onClick={ () => {
+              setMessage(true);
+              const url = `http://localhost:3000/${recipe.type}s/${recipe.id}`;
+              copy(url);
+            } }
           >
             <img
               src={ shareIcon }
@@ -107,10 +110,12 @@ export default function FavoriteRecipes() {
               data-testid={ `${index}-horizontal-share-btn` }
             />
           </button>
+          {message && <p>Link copied!</p>}
           <button
             type="button"
+            value={ recipe.id }
             data-testid={ `${index}-horizontal-favorite-btn` }
-            onClick={ () => {} }
+            onClick={ unfavoriteRecipe }
             src={ blackHeartIcon }
           >
             Desfavoritar
