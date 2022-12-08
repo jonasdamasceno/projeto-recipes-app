@@ -10,3 +10,7 @@ export const saveUserLocalStorage = (param) => {
 // export const removeLocalStorage = (param) => {
 //   localStorage.removeItem(param);
 // };
+
+export const saveRecipeInProgressLocalStorage = (param) => {
+  localStorage.setItem('inProgressRecipes', JSON.stringify(param));
+};
