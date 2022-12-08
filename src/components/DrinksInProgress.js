@@ -23,40 +23,32 @@ export default function DrinksInProgress() {
     fetchAPI();
   }, []);
 
+  const inDate = new Date();
+
+  const saveLocalStorage = {
+    id: drink.idDrink,
+    type: 'drink',
+    nationality: (drink.strArea ? drink.strArea : ''),
+    category: (drink.strCategory !== null ? drink.strCategory : ''),
+    alcoholicOrNot: (drink.strAlcoholic !== null ? drink.strAlcoholic : ''),
+    name: drink.strDrink,
+    image: drink.strDrinkThumb,
+    doneDate: inDate.toISOString(),
+    tags: ((drink.strTags !== null && drink.strTags) ? drink.strTags.split(',') : []),
+
+  };
+
   const handleBtnFinalizar = () => {
-    const inDate = new Date();
-    const str = `${inDate.getDate()}/${inDate.getMonth() + 1}/${inDate.getFullYear()}`;
+    // const str = `${inDate.getDate()}/${inDate.getMonth() + 1}/${inDate.getFullYear()}`;
     const doneRecipe = JSON.parse(localStorage.getItem('doneRecipes'));
     if (!doneRecipe) {
-      saveDoneRecipesLocalStorage([{
-        id: drink.idDrink,
-        type: 'drink',
-        nationality: (drink.strArea && ''),
-        category: (drink.strCategory && ''),
-        alcoholicOrNot: (drink.strAlcoholic && ''),
-        name: drink.strDrink,
-        image: drink.strDrinkThumb,
-        doneDate: str,
-        tags: (drink.strTags !== null ? drink.strTags.split(',') : []),
-
-      }]);
+      saveDoneRecipesLocalStorage([saveLocalStorage]);
     } else {
-      saveDoneRecipesLocalStorage([...doneRecipe, {
-        id: drink.idDrink,
-        type: 'drink',
-        nationality: (drink.strArea && ''),
-        category: (drink.strCategory && ''),
-        alcoholicOrNot: (drink.strAlcoholic && ''),
-        name: drink.strDrink,
-        image: drink.strDrinkThumb,
-        doneDate: str,
-        tags: (drink.strTags !== null ? drink.strTags.split(',') : []),
-
-      }]);
+      saveDoneRecipesLocalStorage([...doneRecipe, saveLocalStorage]);
     }
     history.push('/done-recipes');
   };
-
+  console.log(drink);
   return (
     <div>
       <div>
