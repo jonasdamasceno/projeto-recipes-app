@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import ContextRecipes from '../context/ContextRecipes';
 import IngredientProgress from './IngredientsProgress';
 
 export default function DrinksInProgress() {
   const [drink, setDrink] = useState({});
+  const { disabledBtnFinalizar } = useContext(ContextRecipes);
   const location = useLocation();
   const locationSplit = location.pathname.split('/');
   const id = locationSplit[2];
@@ -32,9 +34,17 @@ export default function DrinksInProgress() {
         <button type="button" data-testid="favorite-btn">Favoritar</button>
         <p data-testid="recipe-category">{drink.strCategory}</p>
         <p data-testid="instructions">{drink.strInstructions}</p>
-        <button type="button" data-testid="finish-recipe-btn">Finalizar</button>
       </div>
       <IngredientProgress recipeType={ drink } />
+      <button
+        type="button"
+        className="finish-button"
+        data-testid="finish-recipe-btn"
+        disabled={ disabledBtnFinalizar }
+      >
+        Finalizar
+
+      </button>
 
     </div>
   );

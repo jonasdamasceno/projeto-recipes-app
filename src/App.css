@@ -28,6 +28,11 @@
   position: fixed;
 }
 
+.finish-button {
+  bottom: 0;
+  position: fixed;
+}
+
 .Footer {
   bottom: 0;
   position: fixed;

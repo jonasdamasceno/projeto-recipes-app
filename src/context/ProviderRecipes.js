@@ -10,6 +10,7 @@ export default function ProviderRecipes({ children }) {
   const [recipesData, setRecipesData] = useState([]);
   const [filters, setFilters] = useState([]);
   const [filterToggle, setFilterToggle] = useState(true);
+  const [disabledBtnFinalizar, setDisabledBtnFinalizar] = useState(true);
 
   const value = useMemo(() => ({
     filterToggle,
@@ -26,9 +27,12 @@ export default function ProviderRecipes({ children }) {
     setRecipesData,
     setFilters,
     setFilterToggle,
+    disabledBtnFinalizar,
+    setDisabledBtnFinalizar,
   }), [recipesData, title, setTitle, search, filters,
     setFilters, setSearch, requestDrink, requestMeal,
-    setRecipesData, filterToggle, setFilterToggle]);
+    setRecipesData, filterToggle, setFilterToggle, disabledBtnFinalizar,
+    setDisabledBtnFinalizar]);
 
   return (
     <ContextRecipes.Provider value={ value }>{ children }</ContextRecipes.Provider>
