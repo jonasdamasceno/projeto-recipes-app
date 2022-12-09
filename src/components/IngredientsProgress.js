@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import '../style/IngredientsInProgress.css';
 import { useHistory } from 'react-router-dom';
 import { saveRecipeInProgressLocalStorage } from '../service/LocalStorage';
+import ContextRecipes from '../context/ContextRecipes';
 
 export default function IngredientProgress(props) {
   const { recipeType } = props;
@@ -13,6 +14,7 @@ export default function IngredientProgress(props) {
   const [rip, setRip] = useState({ meals: { }, drinks: { } });
   const [checkedMap, setCheckedMap] = useState({});
   const [started, setStarted] = useState(false);
+  const { setDisabledBtnFinalizar } = useContext(ContextRecipes);
 
   const isChecked = (param) => {
     const newCheckedMap = {};
@@ -88,6 +90,14 @@ export default function IngredientProgress(props) {
     }
   };
 
+  const handleDisableBtnFinalizar = () => {
+    if (juntaArrays().length === Object.keys(checkedMap).length + 1) {
+      setDisabledBtnFinalizar(false);
+    } else {
+      setDisabledBtnFinalizar(true);
+    }
+  };
+
   const handleClickCheckbox = ({ target }) => {
     const { name } = target;
     if (pathname.includes('/meals')) {
@@ -98,6 +108,7 @@ export default function IngredientProgress(props) {
           meals:
               { [id]: [...rip.meals[id], +name] } });
         setCheckedMap(!checkedMap[+name]);
+        handleDisableBtnFinalizar();
       }
     } if (pathname.includes('/drinks')) {
       if (!rip.drinks[id]) {
@@ -108,6 +119,7 @@ export default function IngredientProgress(props) {
               { [id]: [...rip.drinks[id], +name] } });
       }
       setCheckedMap(!checkedMap[+name]);
+      handleDisableBtnFinalizar();
     }
   };
 
