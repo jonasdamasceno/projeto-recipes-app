@@ -4,8 +4,9 @@ import ContextRecipes from '../context/ContextRecipes';
 import { saveDoneRecipesLocalStorage,
   saveRecipeInProgressLocalStorage } from '../service/LocalStorage';
 import IngredientProgress from './IngredientsProgress';
-import blackHeartIcon from '../images/shareIcon.svg';
-import whiteHeartIcon from '../images/shareIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import shareIcon from '../images/shareIcon.svg';
 
 const copy = require('clipboard-copy');
 
@@ -13,7 +14,7 @@ export default function MealsInProgress() {
   const history = useHistory();
   const [meal, setMeal] = useState({});
   const [message, setMessage] = useState(false);
-  const [favoriteIcon, setFavoriteIcon] = useState(false);
+  const [favoriteIcon, setFavoriteIcon] = useState('');
   const { disabledBtnFinalizar } = useContext(ContextRecipes);
   const location = useLocation();
   const locationSplit = location.pathname.split('/');
@@ -37,12 +38,19 @@ export default function MealsInProgress() {
     fetchAPI();
   }, []);
 
+  useEffect(() => {
+    const favoritesDrinks = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
+    if (favoritesDrinks.some((fav) => fav.id === meal.idMeal)) {
+      setFavoriteIcon(true);
+    }
+  }, [meal]);
+
   const inDate = new Date();
 
   const saveLocalStorage = {
     id: meal.idMeal,
     type: 'meal',
-    nationality: meal.strArea,
+    nationality: (meal.strArea ? meal.strArea : ''),
     category: meal.strCategory,
     alcoholicOrNot: '',
     name: meal.strMeal,
@@ -71,7 +79,7 @@ export default function MealsInProgress() {
   const newFavorite = {
     id: meal.idMeal,
     type: 'meal',
-    nationality: meal.strArea,
+    nationality: (meal.strArea ? meal.strArea : ''),
     category: meal.strCategory,
     alcoholicOrNot: '',
     name: meal.strMeal,
@@ -79,10 +87,12 @@ export default function MealsInProgress() {
 
   const favoriteButton = () => {
     const favorite = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
-    if (!favorite.some((fav) => fav.idMeal === meal.idMeal)) {
+    if (!favorite.some((fav) => fav.id === meal.idMeal)) {
       localStorage.setItem('favoriteRecipes', JSON.stringify([...favorite, newFavorite]));
       setFavoriteIcon(true);
     } else {
+      const favoriteRemove = favorite.filter((fav) => fav.id !== meal.idMeal);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRemove));
       setFavoriteIcon(false);
     }
   };
@@ -108,10 +118,15 @@ export default function MealsInProgress() {
         {message && <p>Link copied!</p>}
         <button
           type="button"
-          data-testid="favorite-btn"
+          // data-testid="favorite-btn"
           onClick={ favoriteButton }
         >
-          <img src={ favoriteIcon ? blackHeartIcon : whiteHeartIcon } alt="iconeHeart" />
+          <img
+            data-testid="favorite-btn"
+            src={ (favoriteIcon
+              ? blackHeartIcon : whiteHeartIcon) }
+            alt="iconeHeart"
+          />
         </button>
         <p data-testid="recipe-category">{meal.strCategory}</p>
         <p data-testid="instructions">{meal.strInstructions}</p>

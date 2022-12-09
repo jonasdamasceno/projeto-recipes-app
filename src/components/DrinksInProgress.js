@@ -5,6 +5,8 @@ import { saveDoneRecipesLocalStorage,
   saveRecipeInProgressLocalStorage } from '../service/LocalStorage';
 import IngredientProgress from './IngredientsProgress';
 import shareIcon from '../images/shareIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 
 const copy = require('clipboard-copy');
 
@@ -12,6 +14,7 @@ export default function DrinksInProgress() {
   const history = useHistory();
   const [drink, setDrink] = useState({});
   const [message, setMessage] = useState(false);
+  const [favoriteIcon, setFavoriteIcon] = useState('');
   const { disabledBtnFinalizar } = useContext(ContextRecipes);
   const location = useLocation();
   const locationSplit = location.pathname.split('/');
@@ -35,12 +38,19 @@ export default function DrinksInProgress() {
     fetchAPI();
   }, []);
 
+  useEffect(() => {
+    const favoritesDrinks = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
+    if (favoritesDrinks.some((fav) => fav.id === drink.idDrink)) {
+      setFavoriteIcon(true);
+    }
+  }, [drink]);
+
   const inDate = new Date();
 
   const saveLocalStorage = {
     id: drink.idDrink,
     type: 'drink',
-    nationality: drink.strArea,
+    nationality: (drink.strArea ? drink.strArea : ''),
     category: drink.strCategory,
     alcoholicOrNot: drink.strAlcoholic,
     name: drink.strDrink,
@@ -66,18 +76,25 @@ export default function DrinksInProgress() {
     setMessage(false);
   };
 
+  const newFavorite = {
+    id: drink.idDrink,
+    type: 'drink',
+    nationality: (drink.strArea ? drink.strArea : ''),
+    category: drink.strCategory,
+    alcoholicOrNot: drink.strAlcoholic,
+    name: drink.strDrink,
+    image: drink.strDrinkThumb };
+
   const favoriteButton = () => {
     const favorite = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
-    let newFavorite = [];
-    newFavorite = {
-      id: drink.idDrink,
-      type: 'drink',
-      nationality: drink.strArea,
-      category: drink.strCategory,
-      alcoholicOrNot: drink.strAlcoholic,
-      name: drink.strDrink,
-      image: drink.strDrinkThumb };
-    localStorage.setItem('favoriteRecipes', JSON.stringify([...favorite, newFavorite]));
+    if (!favorite.some((fav) => fav.id === drink.idDrink)) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([...favorite, newFavorite]));
+      setFavoriteIcon(true);
+    } else {
+      const favoriteRemove = favorite.filter((fav) => fav.id !== drink.idDrink);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRemove));
+      setFavoriteIcon(false);
+    }
   };
   return (
     <div>
@@ -99,10 +116,15 @@ export default function DrinksInProgress() {
         {message && <p>Link copied!</p>}
         <button
           type="button"
-          data-testid="favorite-btn"
+          // data-testid="favorite-btn"
           onClick={ favoriteButton }
         >
-          Favoritar
+          <img
+            data-testid="favorite-btn"
+            src={ (favoriteIcon
+              ? blackHeartIcon : whiteHeartIcon) }
+            alt="iconeHeart"
+          />
 
         </button>
 
