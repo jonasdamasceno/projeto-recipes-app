@@ -50,7 +50,7 @@ export default function MealsInProgress() {
   const saveLocalStorage = {
     id: meal.idMeal,
     type: 'meal',
-    nationality: (meal.strArea ? meal.strArea : ''),
+    nationality: meal.strArea,
     category: meal.strCategory,
     alcoholicOrNot: '',
     name: meal.strMeal,
@@ -79,7 +79,7 @@ export default function MealsInProgress() {
   const newFavorite = {
     id: meal.idMeal,
     type: 'meal',
-    nationality: (meal.strArea ? meal.strArea : ''),
+    nationality: meal.strArea,
     category: meal.strCategory,
     alcoholicOrNot: '',
     name: meal.strMeal,
