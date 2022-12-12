@@ -37,6 +37,11 @@ describe('testa se a página de Receitas Feitas no componente DoneRecipes', () =
   it('testa o Botao de compartilhar', async () => {
     const { history } = renderWithRouter(<App />);
     act(() => { history.push(pageDoneRecipes); });
+    Object.defineProperty(navigator, 'clipboard', {
+      value: {
+        writeText: () => 'copy',
+      },
+    });
     const bntFilterMeal = screen.getByTestId('0-horizontal-share-btn');
     expect(bntFilterMeal).toBeInTheDocument();
     userEvent.click(bntFilterMeal);
@@ -64,7 +69,6 @@ describe('testa se a página de Receitas Feitas no componente DoneRecipes', () =
     expect(inputName).toBeInTheDocument();
     userEvent.click(inputName);
 
-    console.log(history.location.pathname);
     await new Promise((r) => { setTimeout(r, 1000); });
     jest.clearAllMocks();
   });
@@ -76,7 +80,6 @@ describe('testa se a página de Receitas Feitas no componente DoneRecipes', () =
     expect(inputName1).toBeInTheDocument();
     userEvent.click(inputName1);
 
-    console.log(history.location.pathname);
     await new Promise((r) => { setTimeout(r, 1000); });
     jest.clearAllMocks();
   });

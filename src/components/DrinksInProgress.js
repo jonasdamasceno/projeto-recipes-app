@@ -50,7 +50,7 @@ export default function DrinksInProgress() {
   const saveLocalStorage = {
     id: drink.idDrink,
     type: 'drink',
-    nationality: (drink.strArea ? drink.strArea : ''),
+    nationality: '',
     category: drink.strCategory,
     alcoholicOrNot: drink.strAlcoholic,
     name: drink.strDrink,
@@ -79,7 +79,7 @@ export default function DrinksInProgress() {
   const newFavorite = {
     id: drink.idDrink,
     type: 'drink',
-    nationality: (drink.strArea ? drink.strArea : ''),
+    nationality: '',
     category: drink.strCategory,
     alcoholicOrNot: drink.strAlcoholic,
     name: drink.strDrink,
