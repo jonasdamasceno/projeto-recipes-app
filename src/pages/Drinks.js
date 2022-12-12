@@ -23,7 +23,10 @@ export default function Drinks() {
   useEffect(() => {
     setTitle('Drinks');
     requestDrinkFilters().then((filter) => setFilters(filter.drinks));
-    requestDrinks().then((drink) => setRecipesData(drink.drinks));
+    requestDrinks().then((drink) => {
+      setRecipesData(drink.drinks);
+      console.log(drink.drinks);
+    });
   }, [setTitle, setRecipesData, setFilters]);
 
   return (

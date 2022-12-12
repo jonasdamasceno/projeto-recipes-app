@@ -34,7 +34,6 @@ export default function DoneRecipes() {
     const arr = local.filter((el) => el.type.includes(str));
     setDone(arr);
   };
-  console.log(done);
   return (
     <div>
       <Header />

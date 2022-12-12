@@ -33,7 +33,6 @@ export default function IngredientProgress(props) {
 
   useEffect(() => {
     let items;
-    console.log(JSON.parse(localStorage.getItem('inProgressRecipes')));
     items = JSON.parse(localStorage.getItem('inProgressRecipes'));
     items = items === null ? rip : items;
     if (!started) {
@@ -47,7 +46,6 @@ export default function IngredientProgress(props) {
     } else {
       items = rip;
     }
-
     isChecked(items);
     saveRecipeInProgressLocalStorage(items);
   }, [rip]);

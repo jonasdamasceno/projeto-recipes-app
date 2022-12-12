@@ -11,37 +11,30 @@ const copy = require('clipboard-copy');
 
 export default function RecipeDetails(props) {
   const history = useHistory();
-  // console.log(location);
   const [recipe, setRecipe] = useState({});
   const [carousel, setCarousel] = useState([]);
   const [messageCopy, setMessageCopy] = useState(false);
-  // console.log(props);
   const fetchAPI = async (arg) => {
     const b = arg.pathname.split('/');
     const id = b[2];
-    // console.log(b);
     let url = '';
     if (b[1] === 'meals') {
       url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
     } else { url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`; }
     const response = await fetch(url);
     const results = await response.json();
-    // console.log(Object.keys(results)[0], results.meals[0]);
     if (Object.keys(results)[0] === 'meals') {
       setRecipe(results.meals[0]);
     } else {
       setRecipe(results.drinks[0]);
     }
   };
-  console.log(recipe);
   function renderIngredients(param1) {
     const asArray = Object.entries(recipe);
     const filtered = asArray.filter(([key, value]) => key.includes(param1)
     && value !== null && value !== '');
-    // console.log(filtered);
     const a = filtered.map((el) => el[1]);
     return a;
-    // console.log(a);
   }
 
   const fetchCarousel = async (arg) => {
@@ -60,7 +53,6 @@ export default function RecipeDetails(props) {
   const sendToProgressPage = () => {
     const { location: { pathname } } = history;
     const id = pathname.split('/')[2];
-    console.log(id);
     if (history.location.pathname.includes('meals')) {
       history.push(`/meals/${id}/in-progress`);
     }
