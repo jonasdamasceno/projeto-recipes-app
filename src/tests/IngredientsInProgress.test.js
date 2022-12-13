@@ -9,6 +9,9 @@ const InprogressInit = {
   drinks: {},
   meals: {} };
 
+const ingredTestId1 = '0-ingredient-step';
+const ingredTestId3 = '2-ingredient-step';
+
 describe('test RecipeInprogress', () => {
   test('1) test MealsInprogress inProgressRecipes localStorage', async () => {
     const { history } = renderWithRouter(
@@ -21,9 +24,9 @@ describe('test RecipeInprogress', () => {
 
     expect(JSON.parse(localStorage.getItem('inProgressRecipes'))).toEqual(InprogressInit);
 
-    const ingredient1 = await screen.findAllByTestId('0-ingredient-step');
+    const ingredient1 = await screen.findAllByTestId(ingredTestId1);
     const ingredient2 = await screen.findAllByTestId('1-ingredient-step');
-    const ingredient3 = await screen.findAllByTestId('2-ingredient-step');
+    const ingredient3 = await screen.findAllByTestId(ingredTestId3);
     const btnFinish = screen.getByTestId('finish-recipe-btn');
 
     expect(btnFinish).toBeDisabled();
@@ -48,7 +51,7 @@ describe('test RecipeInprogress', () => {
     });
 
     expect(JSON.parse(localStorage.getItem('inProgressRecipes'))).toEqual({ meals: { 52771: [0, 1] }, drinks: {} });
-    const ingredient = await screen.findAllByTestId('2-ingredient-step');
+    const ingredient = await screen.findAllByTestId(ingredTestId3);
 
     userEvent.click(ingredient[0]);
 
@@ -66,7 +69,7 @@ describe('test RecipeInprogress', () => {
 
     expect(JSON.parse(localStorage.getItem('inProgressRecipes'))).toEqual(InprogressInit);
 
-    const ingredient1 = await screen.findAllByTestId('0-ingredient-step');
+    const ingredient1 = await screen.findAllByTestId(ingredTestId1);
     const ingredient2 = await screen.findAllByTestId('1-ingredient-step');
     const ingredient3 = await screen.findAllByTestId('2-ingredient-step');
     const btnFinish = screen.getByTestId('finish-recipe-btn');
@@ -91,7 +94,7 @@ describe('test RecipeInprogress', () => {
     act(() => {
       history.push('/meals/52771/in-progress');
     });
-    const ingredient = await screen.findAllByTestId('0-ingredient-step');
+    const ingredient = await screen.findAllByTestId(ingredTestId1);
 
     expect(JSON.parse(localStorage.getItem('inProgressRecipes'))).toEqual({ drinks: { 17837: [1, 2] }, meals: {} });
     userEvent.click(ingredient[0]);
