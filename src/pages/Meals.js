@@ -15,10 +15,18 @@ export default function Meals() {
     filters, setFilters, setRequestMeal,
     setFilterToggle, filterToggle } = useContext(ContextRecipes);
 
-  const submitFilter = (event) => {
-    const { target: { value } } = event;
-    requestMealBySelectedFilter(value).then((meal) => setRequestMeal(meal.meals));
-    setFilterToggle(!filterToggle);
+  const submitFilter = ({ target }) => {
+    if (target.className === '') {
+      target.className = 'click';
+      requestMealBySelectedFilter(target.value)
+        .then((meal) => setRequestMeal(meal.meals));
+      setFilterToggle(false);
+    } else {
+      target.className = '';
+      requestMealBySelectedFilter(target.value)
+        .then((meal) => setRequestMeal(meal.meals));
+      setFilterToggle(true);
+    }
   };
 
   useEffect(() => {
@@ -41,6 +49,7 @@ export default function Meals() {
                 value={ category.strCategory }
                 data-testid={ `${category.strCategory}-category-filter` }
                 onClick={ submitFilter }
+                className=""
               >
                 {category.strCategory}
               </button>))
@@ -48,6 +57,7 @@ export default function Meals() {
           <button
             type="button"
             data-testid="All-category-filter"
+            className=""
             onClick={ () => {
               setRequestMeal([]);
             } }
