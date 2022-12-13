@@ -36,11 +36,11 @@ export default function IngredientProgress(props) {
     items = JSON.parse(localStorage.getItem('inProgressRecipes'));
     items = items === null ? rip : items;
     if (!started) {
-      if (!items.meals && items.drinks) {
-        items.meals = {};
-      } else if (!items.drinks && items.meals) {
-        items.drinks = {};
-      }
+      // if (!items.meals && items.drinks) {
+      //   items.meals = {};
+      // } else if (!items.drinks && items.meals) {
+      //   items.drinks = {};
+      // }
       setRip(items);
       setStarted(true);
     } else {
@@ -76,14 +76,14 @@ export default function IngredientProgress(props) {
     if (!target.checked) {
       target.parentElement.className = '';
       if (pathname.includes('/meals')) {
-        setRip({ ...rip,
+        setRip({
           meals: { [id]: rip.meals[id]?.filter((meal) => meal !== +target.name) },
-          ...rip.drinks });
+          drinks: rip.drinks });
       }
       if (pathname.includes('/drinks')) {
-        setRip({ ...rip,
-          drinks: { [id]: rip.drinks[id]?.filter((drink) => drink !== +target.name) },
-          ...rip.meals });
+        setRip({
+          meals: rip.meals,
+          drinks: { [id]: rip.drinks[id]?.filter((drink) => drink !== +target.name) } });
       }
     }
   };
@@ -100,21 +100,19 @@ export default function IngredientProgress(props) {
     const { name } = target;
     if (pathname.includes('/meals')) {
       if (!rip.meals[id]) {
-        setRip({ meals: { [id]: [+name] }, ...rip.drinks });
+        setRip({ meals: { [id]: [+name] }, drinks: rip.drinks });
       } else {
-        setRip({ ...rip,
-          meals:
-              { [id]: [...rip.meals[id], +name] } });
+        setRip({ meals: { [id]: [...rip.meals[id], +name] },
+          drinks: rip.drinks });
         setCheckedMap(!checkedMap[+name]);
         handleDisableBtnFinalizar();
       }
     } if (pathname.includes('/drinks')) {
       if (!rip.drinks[id]) {
-        setRip({ drinks: { [id]: [+name] }, ...rip.meals });
+        setRip({ meals: rip.meals, drinks: { [id]: [+name] } });
       } else {
-        setRip({ ...rip,
-          drinks:
-              { [id]: [...rip.drinks[id], +name] } });
+        setRip({ meals: rip.meals,
+          drinks: { [id]: [...rip.drinks[id], +name] } });
       }
       setCheckedMap(!checkedMap[+name]);
       handleDisableBtnFinalizar();
