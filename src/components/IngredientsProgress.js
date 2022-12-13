@@ -36,11 +36,6 @@ export default function IngredientProgress(props) {
     items = JSON.parse(localStorage.getItem('inProgressRecipes'));
     items = items === null ? rip : items;
     if (!started) {
-      // if (!items.meals && items.drinks) {
-      //   items.meals = {};
-      // } else if (!items.drinks && items.meals) {
-      //   items.drinks = {};
-      // }
       setRip(items);
       setStarted(true);
     } else {

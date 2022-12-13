@@ -14,10 +14,18 @@ export default function Drinks() {
   const TWELVE = 12;
   const FIVE = 5;
 
-  const submitFilter = (event) => {
-    const { target: { value } } = event;
-    requestDrinkBySelectedFilter(value).then((drink) => setRequestDrink(drink.drinks));
-    setFilterToggle(!filterToggle);
+  const submitFilter = ({ target }) => {
+    if (target.className === '') {
+      target.className = 'click';
+      requestDrinkBySelectedFilter(target.value)
+        .then((drink) => setRequestDrink(drink.drinks));
+      setFilterToggle(false);
+    } else {
+      target.className = '';
+      requestDrinkBySelectedFilter(target.value)
+        .then((drink) => setRequestDrink(drink.drinks));
+      setFilterToggle(true);
+    }
   };
 
   useEffect(() => {
@@ -25,7 +33,6 @@ export default function Drinks() {
     requestDrinkFilters().then((filter) => setFilters(filter.drinks));
     requestDrinks().then((drink) => {
       setRecipesData(drink.drinks);
-      console.log(drink.drinks);
     });
   }, [setTitle, setRecipesData, setFilters]);
 
