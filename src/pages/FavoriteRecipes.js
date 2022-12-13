@@ -25,7 +25,7 @@ export default function FavoriteRecipes() {
   }, []);
 
   const changeSelectedType = (str) => {
-    const favoriteRecipes = JSON.parse((localStorage.getItem('favoriteRecipes') || '[]'));
+    const favoriteRecipes = JSON.parse((localStorage.getItem('favoriteRecipes')));
     const filteredFavoriteRecipes = favoriteRecipes.filter((el) => el.type.includes(str));
     setFavorite(filteredFavoriteRecipes);
   };
@@ -105,6 +105,7 @@ export default function FavoriteRecipes() {
 
           <button
             type="button"
+            data-testid="copy-button"
             onClick={ () => {
               setMessage(true);
               const url = `http://localhost:3000/${recipe.type}s/${recipe.id}`;
