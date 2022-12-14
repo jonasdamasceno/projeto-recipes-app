@@ -116,7 +116,7 @@ export default function RecipeDetails(props) {
         newFavorite = {
           id: recipe.idDrink,
           type: 'drink',
-          nationality: (recipe.strArea ? recipe.strArea : ''),
+          nationality: '',
           category: recipe.strCategory,
           alcoholicOrNot: recipe.strAlcoholic,
           name: recipe.strDrink,
