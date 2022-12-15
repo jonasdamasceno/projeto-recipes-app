@@ -82,6 +82,8 @@ export default function FavoriteRecipes() {
               data-testid={ `${index}-horizontal-image` }
               src={ recipe.image }
               className="recipe-img"
+              style={ { maxWidth: '600px' } }
+
             />
           </NavLink>
           { recipe.type === 'meal'
