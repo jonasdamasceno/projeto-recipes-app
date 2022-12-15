@@ -66,6 +66,7 @@ export default function DoneRecipes() {
             src={ drinkImage }
             data-testid="drinks-bottom-btn"
             alt="drink icon"
+
           />
           Drinks
         </button>
@@ -81,6 +82,7 @@ export default function DoneRecipes() {
                 alt=""
                 data-testid={ `${index}-horizontal-image` }
                 onClick={ () => history.push(`/${el.type}s/${el.id}`) }
+                style={ { maxWidth: '600px' } }
               />
 
               <Link to={ `/${el.type}s/${el.id}` }>
